@@ -1,29 +1,28 @@
-import React, { useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/cjs/Button";
 
 function App() {
-    const [benefits, setBenefits] = useState(0)
-    const [invest, setInvest] = useState(0)
     const [employees, setEmployees] = useState(0)
+    const [newEmployees, setNewEmployees] = useState(0)
+    const [RRHH, setRRHH] = useState(0)
     const [salary, setSalary] = useState(0)
+    const [salaryRRHH, setSalaryRRHH] = useState(0)
+    const [onBoard, setOnBoard] = useState()
+    const [RRHHProd, setRRHHProd] = useState()
+    const [turnOver, setTurnOver] = useState()
     const [roi, setRoi] = useState(0)
-    const [totalInv, setTotalInv]= useState(0)
 
-    const investment = () => {
-       let  data = invest + (salary * employees)
-        return setTotalInv(data)
-    }
-    const handleBenefits = e => {
+    const handleNewEmployees = e => {
         e.preventDefault()
-        setBenefits(
+        setNewEmployees(
             parseInt(e.target.value)
         )
 
     }
-    const handleInvest = e => {
+    const handleRRHH = e => {
         e.preventDefault()
-        setInvest(
+        setRRHH(
             parseInt(e.target.value)
         )
 
@@ -34,6 +33,7 @@ function App() {
             parseInt(e.target.value)
         )
     }
+
     const handleSalary = e => {
         e.preventDefault()
         setSalary(
@@ -41,91 +41,128 @@ function App() {
         )
 
     }
-    const onClick = () => {
-        console.log(benefits)
-        console.log(totalInv)
-        const totalRoi = (benefits - totalInv) / totalInv*100
-        return  setRoi(totalRoi)
+    const handleSalaryRRHH = e => {
+        e.preventDefault()
+        setSalaryRRHH(
+            parseInt(e.target.value)
+        )
+
+    }
+    const onBoardSavings = () => {
+        let salaryDaily = salaryRRHH / 20;
+        let newEmployeesYearly = newEmployees * 12;
+        let onBoardingTotal = newEmployeesYearly * 2 * salaryDaily;
+        let savings = onBoardingTotal * .5
+        setOnBoard(savings)
+
+    }
+    //salario x dia de rh  = salaryRRHH /20
+    //tiempo dedicado a la incorporacion : 2 dias standard
+    //empelados nuevos x año = NewEmployees * 12
+    //costo total de la incorporacion = empleados nuevos al año * tiempodedicado a la incorp * salario diario
+    //ahorros en incorporacion = costoTotal de incorporacion * 50%
+
+
+    const RRHHProductivity = () => {
+        let totalRRHH = salaryRRHH * RRHH;
+        let productivityMonth = totalRRHH * .40;
+        let productivityYear = productivityMonth * 12;
+        setRRHHProd(productivityYear)
+
+    }
+
+    //incremento en Productividad = 40%
+    //totalRRHH = RRHH * salaryRRHH
+    //aumento de productividad por mes = totalRRH * 40%
+    // aumento de productividad por año = aumento de productividad por mes * 12
+
+
+    const DecreseTurnOverSavings = () => {
+        let turnOverEmployeed = salary * 4
+        let turnOverYear = turnOverEmployeed * newEmployees * 12
+        let turOverSavings = turnOverYear * .5
+        setTurnOver(turOverSavings)
+    }
+    //Salary
+    //costo de rotacion = 400%
+    //costo total de rotacion por empleado = salary * costo de rotacion (%400)
+    //costo rotacion anual = costo total de rotacion por empleado * rotacionAnual(NewEmployees * 12)
+    //reduccion de rotacion = costo rotacion anual * 50%
+
+
+    const totalRoi = () => {
+
+        let workyYear = 99 * 12 * employees
+        let savingTotals = onBoard + RRHHProd + turnOver
+        let ROI = savingTotals / workyYear
+        setRoi(ROI.toFixed(0))
+    }
+    //costo worky por mes = 99
+    //numero de meses = 12
+    //costo anual = employees * 12 * 99
+    //total beneficio = reduccion de rotacion + aumento de productividad por año + ahorros en incorporacion
+    //ROI = total beneficio / costo anual
+
+
+    const onClick = async () => {
+        await onBoardSavings()
+        await RRHHProductivity()
+        await DecreseTurnOverSavings()
     }
     useEffect(() => {
-        investment()
-        console.log(totalInv)
-    }, [employees])
+        totalRoi()
+    }, [turnOver])
 
-    useEffect(() => {
-        investment()
-        console.log(totalInv)
-    }, [invest])
-    useEffect(() => {
-        setBenefits(benefits)
-
-        },[benefits])
-    useEffect(() => {
-        investment()
-        console.log(totalInv)
-    }, [salary])
-    useEffect(() => {
-     onClick()
-    }, [totalInv])
-    useEffect(() => {
-        console.log(roi)
-    }, [roi])
     return (
-        <div className="container" style={{display: 'flex', paddingTop:'20px'}}>
+        <div className="container" style={{display: 'flex', paddingTop: '20px'}}>
             <div className="container">
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Benefits Per Month</Form.Label>
-                        <Form.Control onChange={handleBenefits} type="number"/>
+                        <Form.Label>¿Cuantos empleados tiene tu empresa?</Form.Label>
+                        <Form.Control onChange={handleEmployees} type="number"/>
                         <Form.Text className="text-muted">
                             Enter Benefits Monthly
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Direct Investement Monthly</Form.Label>
-                        <Form.Control onChange={handleInvest} type="number"/>
+                        <Form.Label>¿Cuantos nuevos empleados por mes en promedio?</Form.Label>
+                        <Form.Control onChange={handleNewEmployees} type="number"/>
                         <Form.Text className="text-muted">
                             Enter Number of Total Investement Monthly
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label>Total Employees</Form.Label>
-                        <Form.Control onChange={handleEmployees} type="number"/>
+                        <Form.Label>¿Cuantas personas en tu departamento de RRHH?</Form.Label>
+                        <Form.Control onChange={handleRRHH} type="number"/>
                         <Form.Text className="text-muted">
                             Enter Number of Total Employees
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
-                        <Form.Label> Employees Salary Monthly</Form.Label>
+                        <Form.Label> ¿Salario mensual integral de colaboradores en promedio?</Form.Label>
                         <Form.Control onChange={handleSalary} type="number"/>
                         <Form.Text className="text-muted">
                             Enter Number of Total Salaries Employees Monthly
                         </Form.Text>
                     </Form.Group>
+                    <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Label> ¿Salario promedio integral del área de RRHH mensual?</Form.Label>
+                        <Form.Control onChange={handleSalaryRRHH} type="number"/>
+                        <Form.Text className="text-muted">
+                            Enter Number of Total Salaries Employees Monthly
+                        </Form.Text>
+                    </Form.Group>
+
                     <Button onClick={onClick} variant="primary">
                         Calculate
                     </Button>
                 </Form>
             </div>
             <div className="container">
-                <h1> ROI :</h1>
-                <p>total: {parseInt(roi)} %</p>
-                <h2> benefits </h2>
-                <p>year:$ {benefits *12}</p>
-                <p>month:$ {benefits}</p>
-                <p>day:$ {(benefits /30).toFixed(2)}</p>
-                <h2> employees cost:</h2>
-                <p>year: $ {salary * employees * 12}</p>
-                <p>month: $ {salary * employees}</p>
-                <p>day:$ {(salary * employees / 30).toFixed(2)}</p>
-                <h2> Invest </h2>
-                <p>year:$ {invest *12}</p>
-                <p>month:$ {invest }</p>
-                <p>day:$ {(invest /30).toFixed(2)}</p>
-                <h2>Total Invest</h2>
-                <p>year:$ {totalInv *12}</p>
-                <p>month: {totalInv} </p>
-                <p>day:$ {(totalInv /30).toFixed(2)}</p>
+                <h1> ROI: $ { roi > 0 ?  roi : null} </h1>
+                <h3>Ahorro en Incorporación:$ {onBoard} </h3>
+                <h3>Productividad de su área de RRHH:$ {RRHHProd}</h3>
+                <h3>Reduccion de rotación:$ {turnOver}</h3>
             </div>
         </div>
     );
