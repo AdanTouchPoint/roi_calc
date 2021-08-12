@@ -114,42 +114,42 @@ function App() {
     }, [turnOver])
 
     return (
-        <div className="container" style={{display: 'flex', paddingTop: '20px'}}>
-            <div className="container">
+        <div className="container" style={{display: 'flex', paddingTop: '40px'}}>
+            <div className="container" style={{margin:'20px'}}>
                 <Form>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>¿Cuantos empleados tiene tu empresa?</Form.Label>
                         <Form.Control onChange={handleEmployees} type="number"/>
                         <Form.Text className="text-muted">
-                            Enter Benefits Monthly
+                            Usa las flechas o introduce manualemnte tu respuesta
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>¿Cuantos nuevos empleados por mes en promedio?</Form.Label>
                         <Form.Control onChange={handleNewEmployees} type="number"/>
                         <Form.Text className="text-muted">
-                            Enter Number of Total Investement Monthly
+                            Usa las flechas o introduce manualemnte tu respuesta
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label>¿Cuantas personas en tu departamento de RRHH?</Form.Label>
                         <Form.Control onChange={handleRRHH} type="number"/>
                         <Form.Text className="text-muted">
-                            Enter Number of Total Employees
+                            Usa las flechas o introduce manualemnte tu respuesta
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label> ¿Salario mensual integral de colaboradores en promedio?</Form.Label>
                         <Form.Control onChange={handleSalary} type="number"/>
                         <Form.Text className="text-muted">
-                            Enter Number of Total Salaries Employees Monthly
+                            Usa las flechas o introduce manualemnte tu respuesta
                         </Form.Text>
                     </Form.Group>
                     <Form.Group className="mb-3" controlId="formBasicEmail">
                         <Form.Label> ¿Salario promedio integral del área de RRHH mensual?</Form.Label>
                         <Form.Control onChange={handleSalaryRRHH} type="number"/>
                         <Form.Text className="text-muted">
-                            Enter Number of Total Salaries Employees Monthly
+                            Usa las flechas o introduce manualemnte tu respuesta
                         </Form.Text>
                     </Form.Group>
 
@@ -158,11 +158,15 @@ function App() {
                     </Button>
                 </Form>
             </div>
-            <div className="container">
-                <h1> ROI: $ { roi > 0 ?  roi : null} </h1>
-                <h3>Ahorro en Incorporación:$ {onBoard} </h3>
-                <h3>Productividad de su área de RRHH:$ {RRHHProd}</h3>
-                <h3>Reduccion de rotación:$ {turnOver}</h3>
+            <div className="container" style={{textAlign:'center', margin:'20px', }}>
+                <h1>Estimado de ahorro anual:</h1>
+                <h1 style={{ paddingTop:'20px', }}> ROI: { roi > 0 ?  roi : null} </h1>
+                <h3 style={{ paddingTop:'20px', }}>Ahorro en Incorporación: </h3>
+                <h4>$ {onBoard}</h4>
+                <h3 style={{ paddingTop:'20px', }}>Productividad de su área de RRHH:</h3>
+                <h4>$ {RRHHProd}</h4>
+                <h3 style={{ paddingTop:'20px', }}>Reduccion de rotación:</h3>
+                <h4 >$ {turnOver}</h4>
             </div>
         </div>
     );
